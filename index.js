@@ -15,20 +15,18 @@ const knex = require('knex')({
 
 
 // console.log('5. Provide a query showing a unique list of billing countries from the Invoice table.')
-knex('Invoice').distinct('BillingCountry').orderBy('BillingCountry').then(console.log)
+// knex('Invoice').distinct('BillingCountry').orderBy('BillingCountry').then(console.log)
 
 // console.log('6. Provide a query showing the invoices of customers who are from Brazil.')
-// knex('Invoice').where('BillingCountry', 'Brazil').then(console.log)
+// knex('Invoice').where('BillingCountry', 'Canada').then(console.log)
 
-// console.log(`7. Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.`)
-// knex('Invoice')
-//     .select(knex.raw(`
-//     Employee.FirstName || ' ' || Employee.LastName as SalesAgent,
-//     Invoice.*
-//   `))
-//     .join('Customer', 'Invoice.CustomerId', 'Customer.CustomerId')
-//     .join('Employee', 'Customer.SupportRepId', 'Employee.EmployeeId')
-//     .then(console.log)
+console.log(`7. Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.`)
+knex('Invoice')
+  .select(knex.raw(`"Employee"."FirstName" || ' ' || "Employee"."LastName" as SalesAgent`))
+  .select('Invoice.*')
+  .join('Customer', 'Invoice.CustomerId', 'Customer.CustomerId')
+  .join('Employee', 'SupportRepId', 'EmployeeId')
+  .then(console.log)
 
 // console.log(`8. Provide a query that shows the Invoice Total, Customer name, Country and Full Sales Agent name for all invoices and customers.`)
 // knex("Invoice")
