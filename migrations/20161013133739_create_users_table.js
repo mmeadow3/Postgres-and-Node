@@ -1,8 +1,11 @@
+'use strict'
 
-exports.up = function(knex, Promise) {
-  
-};
+module.exports.up = (knex, Promise) =>
+  knex.schema.createTable('Users', table => {
+    table.increments()
+    table.string('email').unique()
+    table.string('password')
+  })
 
-exports.down = function(knex, Promise) {
-  
-};
+module.exports.down = (knex, Promise) =>
+  knex.schema.dropTable('Users')
