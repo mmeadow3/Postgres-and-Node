@@ -1,0 +1,3 @@
+ knex migrate:make ANYNAME  ----- creates the migration file that will need to be filled with data
+ knex migrate:latest      ---------migrate on the "up" command
+ knex migrate:rollback    -----------migrate on the "down" command
