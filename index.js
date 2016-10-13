@@ -103,16 +103,27 @@
 // db.close()
 
 const knex = require('knex')({
-  client: 'sqlite3',
-  connection: {
-    filename: 'db/Chinook_Sqlite.sqlite',
-  },
-  useNullAsDefault: true,
+    client: 'sqlite3',
+    connection: {
+        filename: 'db/Chinook_Sqlite.sqlite',
+    },
+    useNullAsDefault: true,
 })
 
-console.log('5. Provide a query showing a unique list of billing countries from the Invoice table.')
-knex('Invoice').then(console.log)
+// console.log('5. Provide a query showing a unique list of billing countries from the Invoice table.')
+// knex('Invoice').distinct('BillingCountry').orderBy('BillingCountry').then(console.log)
 
-// 6. Provide a query showing the invoices of customers who are from Brazil.
-// 7. Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
+// console.log('6. Provide a query showing the invoices of customers who are from Brazil.')
+// knex('Invoice').where('BillingCountry', 'Brazil').then(console.log)
 
+console.log(`7. Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.`)
+knex('Invoice')
+  .select(knex.raw(`
+    Employee.FirstName || ' ' || Employee.LastName as SalesAgent,
+    Invoice.*
+  `))
+  .join('Customer', 'Invoice.CustomerId', 'Customer.CustomerId')
+  .join('Employee', 'Customer.SupportRepId', 'Employee.EmployeeId')
+  .then(console.log)
+
+knex.destroy()
